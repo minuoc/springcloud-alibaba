@@ -1,0 +1,27 @@
+server:
+  port: 8091
+  tomcat:
+    max-threads: 10 #tomcat的最大并发值修改为10,默认为20
+spring:
+  application:
+    name: service-order
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.163.129:3306/mall
+    username: clf
+    password: xiaobai1126
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect:
+          storage_engine: innodb
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.163.129:8848
+
+service-product: #调用的提供者的名称
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
