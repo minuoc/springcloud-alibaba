@@ -38,7 +38,7 @@ public class OrderController {
     private ProductService productService;
 
     //下单--fegin
-    @RequestMapping("/order/prod/{pid}")
+    @RequestMapping("/order/prod/22/{pid}")
     public Order order(@PathVariable("pid") Integer pid) {
         log.info(">>客户下单，这时候要调用商品微服务查询商品信息");
 
