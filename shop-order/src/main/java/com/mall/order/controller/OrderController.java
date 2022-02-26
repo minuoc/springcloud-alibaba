@@ -7,6 +7,7 @@ import com.mall.order.service.OrderService;
 import com.mall.order.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +39,7 @@ public class OrderController {
     private ProductService productService;
 
     //下单--fegin
-    @RequestMapping("/order/prod/22/{pid}")
+    @RequestMapping("/order/prod/{pid}")
     public Order order(@PathVariable("pid") Integer pid) {
         log.info(">>客户下单，这时候要调用商品微服务查询商品信息");
 
@@ -59,6 +60,11 @@ public class OrderController {
         //使用feign 调用
         Product product = productService.findByPid(pid);
         log.info(">>商品信息,查询结果:" + JSON.toJSONString(product));
+        if (product.getPid() == -1){
+            Order order = new Order();
+            order.setPname("下单失败");
+            return order;
+        }
         Order order = new Order();
         order.setUid(1);
         order.setUsername("测试用户");
@@ -68,6 +74,13 @@ public class OrderController {
         order.setPprice(product.getPprice());
         order.setNumber(1);
         orderService.save(order);
+
+        log.info("创建订单成功,订单信息为{}",JSON.toJSONString(order));
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return order;
     }

@@ -12,6 +12,7 @@
         <module>shop-common</module>
         <module>shop-product</module>
         <module>shop-order</module>
+        <module>api-gateway</module>
     </modules>
 
 

@@ -25,7 +25,7 @@ public class OrderController2 {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping("/order/prod/{pid}")
+    @RequestMapping("/order/prod/2/{pid}")
     public Order order(@PathVariable("pid")Integer pid) {
         log.info(">>接收到{}号商品的下单请求,接下来调用商品微服务查询商品信息",pid);
 
