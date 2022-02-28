@@ -1,0 +1,21 @@
+server:
+  port: 7000
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.163.129:8848 # 将gateway注册到nacos
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 让gateway从nacos中获取服务信息
+      routes:
+        - id: product_route
+          uri: http://localhost:8081
+          order: 1
+          predicates:
+            - Path=/product-serv/**
+          filters:
+            - StripPrefix=1

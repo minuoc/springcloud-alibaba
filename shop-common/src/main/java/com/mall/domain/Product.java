@@ -2,20 +2,28 @@ package com.mall.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
-//商品
-@Entity(name = "shop_product")
 @Data
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pid;//主键
+@Entity
+@Table(name = "shop_product")
+public class Product implements Serializable {
 
-    private String pname;//商品名称
-    private Double pprice;//商品价格
-    private Integer stock;//库存
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "pid", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer pid;
+
+    @Column(name = "pname")
+    private String pname;
+
+    @Column(name = "pprice")
+    private Double pprice;
+
+    @Column(name = "stock")
+    private Integer stock;
+
 }

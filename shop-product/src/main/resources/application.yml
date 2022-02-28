@@ -15,6 +15,11 @@ spring:
           auto: update
         dialect:
           storage_engine: innodb
+        format_sql: true
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
   cloud:
     nacos:
       discovery:
