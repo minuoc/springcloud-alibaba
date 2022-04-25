@@ -17,8 +17,6 @@ public class ProductController {
     private ProductService productService;
 
 
-
-
     //商品信息查询
     @RequestMapping("/product/{pid}")
     public Product product(@PathVariable("pid") Integer pid) {
