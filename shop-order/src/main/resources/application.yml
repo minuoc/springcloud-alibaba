@@ -1,5 +1,5 @@
 server:
-  port: 8091
+  port: 8092
   tomcat:
     max-threads: 10 #tomcat的最大并发值修改为10,默认为20
 spring:
@@ -7,7 +7,7 @@ spring:
     name: service-order
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.163.129:3306/mall
+    url: jdbc:mysql://192.168.163.129:3306/mall?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: clf
     password: xiaobai1126
   jpa:
@@ -25,7 +25,12 @@ spring:
       transport:
         dashboard: localhost:8080
 
-
+  zipkin:
+    base-url: http://127.0.0.1:9411/   #zipkin server的请求地址
+    discoveryClientEnabled: false #让nacos把它当成一个URL，而不要当做服务名
+    sleuth:
+      sampler:
+        probability: 1.0  #采样的百分比
 
 
 service-product: #调用的提供者的名称
@@ -37,3 +42,17 @@ service-product: #调用的提供者的名称
 feign:
   sentinel:
     enabled: true
+
+
+logging:
+  level:
+    #添加分布式链路追踪日志级别
+    org.springframework.web.servlet.DispatcherServlet: debug
+    org.springframework.cloud.sleuth: debug
+
+
+rocketmq:
+  name-server: 192.168.163.129:9876
+  producer:
+    group: shop-order #生产者组
+

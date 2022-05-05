@@ -5,7 +5,7 @@ spring:
     name: service-product
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.163.129:3306/mall
+    url: jdbc:mysql://192.168.163.129:3306/mall?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: clf
     password: xiaobai1126
   jpa:
@@ -19,8 +19,21 @@ spring:
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
+  zipkin:
+    base-url: http://127.0.0.1:9411/   #zipkin server的请求地址
+    discoveryClientEnabled: false #让nacos把它当成一个URL，而不要当做服务名
+    sleuth:
+      sampler:
+        probability: 1.0  #采样的百分比
 
   cloud:
     nacos:
       discovery:
         server-addr: 192.168.163.129:8848
+
+
+logging:
+  level:
+    #添加分布式链路追踪日志级别
+    org.springframework.web.servlet.DispatcherServlet: debug
+    org.springframework.cloud.sleuth: debug

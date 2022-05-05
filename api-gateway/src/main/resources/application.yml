@@ -1,6 +1,12 @@
 server:
   port: 7000
 spring:
+  zipkin:
+    base-url: http://127.0.0.1:9411/  #zipkin server的请求地址
+    discoveryClientEnabled: false #让nacos把它当成一个URL，而不要当做服务名
+  sleuth:
+    sampler:
+      probability: 1.0  #采样的百分比
   application:
     name: api-gateway
   cloud:
@@ -11,11 +17,38 @@ spring:
       discovery:
         locator:
           enabled: true # 让gateway从nacos中获取服务信息
+
       routes:
         - id: product_route
-          uri: http://localhost:8081
+          uri: lb://service-product
           order: 1
           predicates:
             - Path=/product-serv/**
           filters:
             - StripPrefix=1
+        - id: order_route
+          uri: lb://service-order
+          order: 1
+          predicates:
+            - Path=/order-serv/**
+          filters:
+            - StripPrefix=1
+
+
+# actuator相关配置
+management:
+  endpoints:
+    web:
+      exposure:
+        # 暴露所有监控端点
+        include: '*'
+  endpoint:
+    health:
+      # 总是显示健康检测详情
+      show-details: always
+
+logging:
+  level:
+    #添加分布式链路追踪日志级别
+    org.springframework.web.servlet.DispatcherServlet: debug
+    org.springframework.cloud.sleuth: debug
